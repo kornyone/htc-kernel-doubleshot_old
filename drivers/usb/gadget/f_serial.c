@@ -898,6 +898,7 @@ gser_unbind(struct usb_configuration *c, struct usb_function *f)
 	if (gadget_is_dualspeed(c->cdev->gadget))
 		usb_free_descriptors(f->hs_descriptors);
 	usb_free_descriptors(f->descriptors);
+<<<<<<< HEAD
 #ifdef CONFIG_MODEM_SUPPORT
 #ifdef DISABLE_SERIAL_NOTIFY
 	if (strncmp(gser->port.func.name, "serial", 6)) {
@@ -907,6 +908,11 @@ gser_unbind(struct usb_configuration *c, struct usb_function *f)
 	}
 #endif
 #endif
+=======
+	if (f->name) {
+		kfree(f->name);
+	}
+>>>>>>> 10d6413... usb: gadget: android: Update android gadget driver
 	kfree(func_to_gser(f));
 }
 
@@ -951,6 +957,7 @@ int __init gser_bind_config(struct usb_configuration *c, u8 port_num)
 	 * distinguish instances ...
 	 */
 
+	printk("gser_bind_config, port_num :%d", port_num);
 	/* maybe allocate device-global string ID */
 	if (modem_string_defs[0].id == 0 &&
 			p->func_type == USB_FSER_FUNC_MODEM) {
@@ -1014,6 +1021,18 @@ int __init gser_bind_config(struct usb_configuration *c, u8 port_num)
 		break;
 	}
 
+<<<<<<< HEAD
+=======
+	gser->port.func.name = kzalloc(7, GFP_KERNEL);
+	if (gser->port.func.name) {
+		//snprintf((char*)gser->port.func.name, 7, "gser%d", gser->port_num);
+		snprintf((char*)gser->port.func.name, 5, "gser");
+	} else {
+		kfree(gser);
+		return -ENOMEM;
+	}
+	gser->port.func.strings = gser_strings;
+>>>>>>> 10d6413... usb: gadget: android: Update android gadget driver
 	gser->port.func.bind = gser_bind;
 	gser->port.func.unbind = gser_unbind;
 	gser->port.func.set_alt = gser_set_alt;
@@ -1065,6 +1084,7 @@ int __init gser_bind_config(struct usb_configuration *c, u8 port_num)
 	return status;
 }
 
+<<<<<<< HEAD
 static int modem_set_enabled(const char *val, struct kernel_param *kp)
 {
 	struct f_gser *gser;
@@ -1279,3 +1299,5 @@ static int __init init(void)
 
 }
 module_init(init);
+=======
+>>>>>>> 10d6413... usb: gadget: android: Update android gadget driver
