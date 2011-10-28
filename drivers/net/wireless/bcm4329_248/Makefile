@@ -8,8 +8,8 @@ DHDCFLAGS = -DLINUX -DBCMDRIVER -DBCMDONGLEHOST -DDHDTHREAD -DBCMWPA2         \
 	-DEMBEDDED_PLATFORM -DARP_OFFLOAD_SUPPORT -DPKT_FILTER_SUPPORT        \
 	-DKEEP_ALIVE -DCONFIG_FIRST_SCAN -DAP_ONLY \
 	-DCSCAN -DBCM4329_LOW_POWER -DPNO_SUPPORT \
-	-Idrivers/net/wireless/bcm4329_248 -Idrivers/net/wireless/bcm4329_248/include
-	#-DPNO_SUPPORT -DCSCAN -DSET_RANDOM_MAC_SOFTAP -DGET_CUSTOM_MAC_ENABLE 
+	-Idrivers/net/wireless/bcm4329_248 -Idrivers/net/wireless/bcm4329_248/include \
+	-DPNO_SUPPORT -DCSCAN -DSET_RANDOM_MAC_SOFTAP -DGET_CUSTOM_MAC_ENABLE 
 
 DHDOFILES = dhd_linux.o linux_osl.o bcmutils.o dhd_common.o dhd_custom_gpio.o \
 	wl_iw.o siutils.o sbutils.o aiutils.o hndpmu.o bcmwifi.o dhd_sdio.o   \
