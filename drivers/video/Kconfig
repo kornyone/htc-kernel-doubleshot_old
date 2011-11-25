@@ -2222,10 +2222,6 @@ config FB_BROADSHEET
 	  and could also have been called by other names when coupled with
 	  a bridge adapter.
 
-config MSM_KGSL_HC_MR1
-	bool "Use Honeycomb MR1 KGSL driver"
-	default n
-
 config MSM_KGSL_PAGE_TABLE_SIZE
 	hex "Size of pagetables"
 	default 0xFFF0000
