@@ -98,7 +98,7 @@
 #include <mach/board_htc.h>
 #include <linux/i2c/isl9519.h>
 #include <mach/tpa2051d3.h>
-#ifdef CONFIG_USB_ANDROID
+#ifdef CONFIG_USB_G_ANDROID
 #include <linux/usb/android_composite.h>
 #endif
 #include <linux/regulator/consumer.h>
@@ -654,7 +654,7 @@ static struct platform_device cable_detect_device = {
 	},
 };
 
-#ifdef CONFIG_USB_ANDROID
+#ifdef CONFIG_USB_G_ANDROID
 static struct usb_mass_storage_platform_data mass_storage_pdata = {
 	.nluns		= 1,
 	.vendor		= "HTC",
@@ -668,6 +668,22 @@ static struct platform_device usb_mass_storage_device = {
 		.platform_data = &mass_storage_pdata,
 	},
 };
+
+#ifdef CONFIG_USB_G_ANDROID_RNDIS
+static struct usb_ether_platform_data rndis_pdata = {
+  /* ethaddr is filled by board_serialno_setup */
+  .vendorID       = 0x18d1,
+  .vendorDescr    = "Google, Inc.",
+};
+
+static struct platform_device rndis_device = {
+  .name   = "rndis",
+  .id     = -1,
+  .dev    = {
+    .platform_data = &rndis_pdata,
+  },
+};
+#endif
 
 static struct android_usb_platform_data android_usb_pdata = {
 	.vendor_id	= 0x0BB4,
@@ -2424,7 +2440,7 @@ static struct platform_device *surf_devices[] __initdata = {
 #ifdef CONFIG_MSM_DSPS
 	&msm_dsps_device,
 #endif
-#ifdef CONFIG_USB_ANDROID_QCT_DIAG
+#ifdef CONFIG_USB_G_ANDROID_QCT_DIAG
        &usb_diag_device,
 #endif
 #ifdef CONFIG_BATTERY_MSM
@@ -2446,7 +2462,7 @@ static struct platform_device *surf_devices[] __initdata = {
 	&msm_rotator_device,
 #endif
 	&lcdc_samsung_panel_device,
-        &msm_kgsl_3d0,
+    &msm_kgsl_3d0,
 #ifdef CONFIG_MSM_KGSL_2D
 	&msm_kgsl_2d0,
 	&msm_kgsl_2d1,
@@ -4901,7 +4917,7 @@ static struct msm_rpm_platform_data msm_rpm_data = {
 #endif
 
 
-#ifdef CONFIG_USB_ANDROID
+#ifdef CONFIG_USB_G_ANDROID
 static void doubleshot_add_usb_devices(void)
 {
 	printk("%s\n", __func__);
@@ -4919,6 +4935,11 @@ static void doubleshot_add_usb_devices(void)
 	msm_device_hsusb.dev.platform_data = &msm_hsusb_pdata;
 	config_doubleshot_usb_id_gpios(0);
 	platform_device_register(&msm_device_hsusb);
+
+#ifdef CONFIG_USB_G_ANDROID_RNDIS
+	platform_device_register(&rndis_device);
+#endif
+
 	platform_device_register(&usb_mass_storage_device);
 	platform_device_register(&android_usb_device);
 }
@@ -5052,7 +5073,7 @@ static void __init doubleshot_init(void)
 
 	dot_init_panel(msm_fb_resources, ARRAY_SIZE(msm_fb_resources));
 	register_i2c_devices();
-#ifdef CONFIG_USB_ANDROID
+#ifdef CONFIG_USB_G_ANDROID
 	doubleshot_add_usb_devices();
 #endif
 	msm_pm_set_platform_data(msm_pm_data, ARRAY_SIZE(msm_pm_data));
