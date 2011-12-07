@@ -105,9 +105,4 @@ config NOP_USB_XCEIV
 	 built-in with usb ip or which are autonomous and doesn't require any
 	 phy programming such as ISP1x04 etc.
 
-config USB_HOST_OC_DETECT
-	bool "Support Over Current GPIO detection"
-	depends on USB_OTG && USB_OTG_HOST
-	default y
-
 endif # USB || OTG

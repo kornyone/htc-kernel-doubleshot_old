@@ -292,7 +292,6 @@ struct usb_ep *usb_ep_autoconfig (
 	}
 
 	/* Fail */
-	printk( "usb_ep_autoconfig  failed\n");
 	return NULL;
 }
 
